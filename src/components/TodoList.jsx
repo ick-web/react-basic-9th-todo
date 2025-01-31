@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SAMPLE_TODOS = [
   { id: 1, text: "Buy milk", completed: false },
@@ -13,63 +13,67 @@ const SAMPLE_TODOS = [
   { id: 10, text: "Write code", completed: false },
 ];
 
- const TodoList = () => {
+const TodoList = () => {
   const [todos, setTodos] = useState(SAMPLE_TODOS);
-  const [todoText, setTodoText] = useState("")
+  const [todoText, setTodoText] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(!todoText.trim()){
-      return ;
+    if (!todoText.trim()) {
+      return;
     }
 
-    setTodos([{ id: crypto.randomUUID(), text: todoText, completed: false },...todos]);
+    setTodos([
+      { id: crypto.randomUUID(), text: todoText, completed: false },
+      ...todos,
+    ]);
 
-    setTodoText("")
-  }
+    setTodoText("");
+  };
 
   const handleChangeTodoText = (e) => {
     setTodoText(e.target.value);
-  }
+  };
 
   const handleTolggleCompleted = (id) => {
-    const updatedTodos = todos.map((todo)=> {
-      if(todo.id === id) {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
         return {
-          ...todo, completed: !todo.completed
-        }
+          ...todo,
+          completed: !todo.completed,
+        };
       } else {
-        return todo
+        return todo;
       }
-    })
-    setTodos(updatedTodos)
-  }
+    });
+    setTodos(updatedTodos);
+  };
 
   return (
-    <div> 
+    <div>
       <form onSubmit={handleSubmit}>
         <input type="text" value={todoText} onChange={handleChangeTodoText} />
-        <button type='submit'>제출하기</button>
-        
+        <button type="submit">제출하기</button>
+
         <ul>
-        {todos.map(({ id, text, completed }) => (
-            <li key = {id}>
+          {todos.map(({ id, text, completed }) => (
+            <li key={id}>
               <p
-              style={{
-                textDecoration: completed ? "line-through" : "none"
-              }}>
-                {text}</p>
-                <button onClick={()=> handleTolggleCompleted(id)}>
-                  {completed ? "취소하기" : "완료하기"}
-                  </button>
+                style={{
+                  textDecoration: completed ? "line-through" : "none",
+                }}
+              >
+                {text}
+              </p>
+              <button onClick={() => handleTolggleCompleted(id)}>
+                {completed ? "취소하기" : "완료하기"}
+              </button>
             </li>
-        ))}
-    </ul>
-    </form>
-      
+          ))}
+        </ul>
+      </form>
     </div>
-    
   );
 };
 
