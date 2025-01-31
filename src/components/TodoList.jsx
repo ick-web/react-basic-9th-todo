@@ -36,7 +36,7 @@ const TodoList = () => {
     setTodoText(e.target.value);
   };
 
-  const handleTolggleCompleted = (id) => {
+  const handleToggleCompleted = (id) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
         return {
@@ -74,7 +74,7 @@ const TodoList = () => {
                 {text}
               </p>
               <div>
-                <button onClick={() => handleTolggleCompleted(id)}>
+                <button onClick={() => handleToggleCompleted(id)}>
                 {completed ? "취소하기" : "완료하기"}
               </button>
 
