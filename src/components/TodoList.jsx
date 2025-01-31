@@ -51,13 +51,8 @@ const TodoList = () => {
   };
 
   const handleDelete = (id) => {
-    const filteredTodos = todos.filter((todo) => {
-      if(todo.id === id) {
-        return false
-      }
-
-      return true
-    });
+    // todo.id가 내가 찾는 id와 같이 않을때 true를 반환하여 그대로 남겨둠
+    const filteredTodos = todos.filter((todo) => todo.id !== id );
 
     setTodos(filteredTodos);
   };
