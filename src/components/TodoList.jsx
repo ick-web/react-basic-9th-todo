@@ -50,6 +50,18 @@ const TodoList = () => {
     setTodos(updatedTodos);
   };
 
+  const handleDelete = (id) => {
+    const filteredTodos = todos.filter((todo) => {
+      if(todo.id === id) {
+        return false
+      }
+
+      return true
+    });
+
+    setTodos(filteredTodos);
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -66,9 +78,14 @@ const TodoList = () => {
               >
                 {text}
               </p>
-              <button onClick={() => handleTolggleCompleted(id)}>
+              <div>
+                <button onClick={() => handleTolggleCompleted(id)}>
                 {completed ? "취소하기" : "완료하기"}
               </button>
+
+              <button onClick={() => handleDelete(id)}>삭제하기</button>
+              </div>
+              
             </li>
           ))}
         </ul>
