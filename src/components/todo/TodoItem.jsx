@@ -1,9 +1,29 @@
-import React from 'react'
-
-export const TodoItem = () => {
+const TodoItem = ({
+  completed,
+  text,
+  handleToggleCompleted,
+  handleDelete,
+  id,
+}) => {
   return (
-    <div>TodoItem</div>
-  )
-}
+    <li>
+      <p
+        style={{
+          textDecoration: completed ? "line-through" : "none",
+        }}
+      >
+        {text}
+      </p>
 
-export default TodoItem ;
+      <div>
+        <button onClick={() => handleToggleCompleted(id)}>
+          {completed ? "취소하기" : "완료하기"}
+        </button>
+
+        <button onClick={() => handleDelete(id)}>삭제하기</button>
+      </div>
+    </li>
+  );
+};
+
+export default TodoItem;
