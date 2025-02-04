@@ -1,19 +1,20 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, handleToggleCompleted, handleDelete }) => {
+const TodoList = ({ todos, toggleTodoCompleted, deleteTodo }) => {
   return (
-        <ul>
-          {todos.map(({ id, text, completed }) => (
-            <TodoItem key={id} 
-            completed={completed}
-            text={text}
-            handleToggleCompleted={handleToggleCompleted}
-            handleDelete={handleDelete}
-            id={id}
-            />
-          ))}
-        </ul>
+    <ul>
+      {todos.map(({ id, text, completed }) => (
+        <TodoItem
+          key={id}
+          completed={completed}
+          text={text}
+          toggleTodoCompleted={toggleTodoCompleted}
+          deleteTodo={deleteTodo}
+          id={id}
+        />
+      ))}
+    </ul>
   );
 };
 
