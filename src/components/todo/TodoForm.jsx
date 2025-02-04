@@ -1,8 +1,9 @@
-import React from 'react'
-
-export const TodoForm = () => {
+const TodoForm = ({ handleSubmit, todoText, handleChangeTodoText }) => {
   return (
-    <div>TodoForm</div>
+    <form onSubmit={handleSubmit}>
+        <input type="text" value={todoText} onChange={handleChangeTodoText} />
+        <button type="submit">제출하기</button>
+        </form>
   )
 }
 
