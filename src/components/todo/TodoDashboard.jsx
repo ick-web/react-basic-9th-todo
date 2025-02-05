@@ -1,4 +1,4 @@
-import { FileCheck2, LaptopMinimal, Video } from "lucide-react";
+import { ClipboardCheck, LaptopMinimal, Video } from "lucide-react";
 import styled from "styled-components";
 
 export const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
@@ -10,7 +10,7 @@ export const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
         <TodoDashboardCardWrapper $flex={2}>
           <TodoDashboardCard>
             <div>
-              <FileCheck2 />
+            <ClipboardCheck />
             </div>
             <TodoDashboardCardContent>
               {all} <br /> <span>All Tasks</span>
@@ -34,7 +34,7 @@ export const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
               <Video />
             </div>
             <TodoDashboardCardContent>
-              {pending} <br /> <span> Todo Tasks</span>
+              {pending} <br /> <span> Pending Tasks</span>
             </TodoDashboardCardContent>
           </TodoDashboardCard>
         </TodoDashboardCardWrapper>
