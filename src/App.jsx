@@ -1,12 +1,15 @@
+import { RootLayout } from "./components/todo/layout/RootLayout";
 import TodoContainer from "./components/todo/TodoContainer";
+import { TodoDashboard } from "./components/todo/TodoDashboard";
 
 
 
 export const App = () => {
   return (
-    <main className="main-center">
+    <RootLayout>
+      
       <TodoContainer />
-    </main>
+    </RootLayout>
   );
 };
 

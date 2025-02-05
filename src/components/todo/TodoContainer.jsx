@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
+import TodoDashboard from "./TodoDashboard";
 
 const SAMPLE_TODOS = [
   { id: 1, text: "Buy milk", completed: false },
@@ -45,8 +46,9 @@ const TodoContainer = () => {
 
   return (
     <div>
-      <TodoForm addTodos={addTodos} />
+      <TodoDashboard />
 
+      <TodoForm addTodos={addTodos} />
       <TodoList
         todos={todos}
         toggleTodoCompleted={toggleTodoCompleted}
