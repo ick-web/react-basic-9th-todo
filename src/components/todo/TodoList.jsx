@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { TodoContext } from "../../context/TodoContext";
 import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, toggleTodoCompleted, deleteTodo }) => {
+const TodoList = () => {
+  const {todos} = useContext(TodoContext)
+
   return (
     <TodoListSection>
       <TodoListHeader>Tasks</TodoListHeader>
@@ -13,8 +16,6 @@ const TodoList = ({ todos, toggleTodoCompleted, deleteTodo }) => {
           key={id}
           completed={completed}
           text={text}
-          toggleTodoCompleted={toggleTodoCompleted}
-          deleteTodo={deleteTodo}
           id={id}
         />
       ))}

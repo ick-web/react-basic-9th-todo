@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { TodoContext } from "../../context/TodoContext";
 import { ActionButton } from "./TodoItem";
 
-const TodoForm = ({ addTodos }) => {
+const TodoForm = () => {
+const {addTodos} = useContext(TodoContext)
+
   const [todoText, setTodoText] = useState("");
 
   const handleSubmit = (e) => {

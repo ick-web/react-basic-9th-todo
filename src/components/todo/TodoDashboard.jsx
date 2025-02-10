@@ -1,7 +1,15 @@
 import { ClipboardCheck, LaptopMinimal, Video } from "lucide-react";
+import { useContext } from "react";
 import styled from "styled-components";
+import { TodoContext } from "../../context/TodoContext";
 
-export const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
+export const TodoDashboard = () => {
+  const { todos } = useContext(TodoContext);
+
+  const all = todos.length;
+  const completed = todos.filter((todo) => todo.completed).length;
+  const pending = all - completed;
+
   return (
     <TodoDashBoardSection>
       <TodoDashboardHeader>Quick Access</TodoDashboardHeader>
