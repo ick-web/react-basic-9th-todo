@@ -1,16 +1,23 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useContext } from "react";
 import styled from "styled-components";
 import { TodoContext } from "../../context/TodoContext";
 
 const TodoItem = ({ completed, text, id }) => {
-const { toggleTodoCompleted, deleteTodo } = useContext(TodoContext)
+  const { toggleTodoCompleted, deleteTodo } = useContext(TodoContext);
+  const navigate = useNavigate();
+
+  const navigateAfterDelete = (id) => {
+    deleteTodo(id);
+
+    navigate("/");
+  };
 
   return (
     <TodoItemWrapper>
-      <TodoItemLink to={`/todos/${TodoItem}`} $completed={completed}>
+      <TodoItemLink to={`/todos/${id}`} $completed={completed}>
         {text}
-        </TodoItemLink>
+      </TodoItemLink>
 
       <TodoItemActions>
         <ActionButton
@@ -20,7 +27,10 @@ const { toggleTodoCompleted, deleteTodo } = useContext(TodoContext)
           {completed ? "취소하기" : "완료하기"}
         </ActionButton>
 
-        <ActionButton onClick={() => deleteTodo(id)} $bgColor="#ff4033">
+        <ActionButton
+          onClick={() => navigateAfterDelete(id)}
+          $bgColor="#ff4033"
+        >
           삭제하기
         </ActionButton>
       </TodoItemActions>
@@ -45,9 +55,9 @@ const TodoItemLink = styled(Link)`
   text-decoration: ${({ $completed }) =>
     $completed ? "line-through" : "none"};
 
-    &:hover {
-      text-decorations: underline;
-    }
+  &:hover {
+    text-decorations: underline;
+  }
 `;
 
 const TodoItemActions = styled.div`
@@ -66,7 +76,7 @@ export const ActionButton = styled.button`
   cursor: pointer;
 
   word-break: keep-all; // 글자 깨지지않게
-
+  text-align: center;
   &:hover {
     opacity: 0.8;
   }

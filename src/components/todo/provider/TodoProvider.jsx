@@ -1,10 +1,9 @@
-import { useState } from "react"
-import { TodoContext } from "../../../context/TodoContext"
+import { useState } from "react";
+import { TodoContext } from "../../../context/TodoContext";
 import { SAMPLE_TODOS } from "../../../constants/sample-todos";
 
-
 export const TodoProvider = ({ children }) => {
-    const [todos, setTodos] = useState(SAMPLE_TODOS);
+  const [todos, setTodos] = useState(SAMPLE_TODOS);
 
   const addTodos = (text) => {
     setTodos([{ id: crypto.randomUUID(), text, completed: false }, ...todos]);
@@ -30,11 +29,32 @@ export const TodoProvider = ({ children }) => {
 
     setTodos(filteredTodos);
   };
-    return (
-      <TodoContext.Provider value={{ todos,addTodos, deleteTodo, toggleTodoCompleted }}>
-        {children}
-      </TodoContext.Provider>
-    )
-  }
 
-  export default TodoProvider;
+  const getFilteredTodos = (selectedFilter) => {
+    if (selectedFilter === "completed") {
+      return todos.filter((todo) => todo.completed);
+    }
+
+    if (selectedFilter === "completed") {
+      return todos.filter((todo) => !todo.completed);
+    }
+
+    return todos;
+  };
+
+  return (
+    <TodoContext.Provider
+      value={{
+        todos,
+        addTodos,
+        deleteTodo,
+        toggleTodoCompleted,
+        getFilteredTodos,
+      }}
+    >
+      {children}
+    </TodoContext.Provider>
+  );
+};
+
+export default TodoProvider;
