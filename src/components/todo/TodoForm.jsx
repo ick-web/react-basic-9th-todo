@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
@@ -5,10 +6,9 @@ import { TodoContext } from "../../context/TodoContext";
 import { ActionButton } from "./TodoItem";
 
 const TodoForm = () => {
-const {addTodos} = useContext(TodoContext)
-
+  const { addTodos } = useContext(TodoContext);
   const [todoText, setTodoText] = useState("");
-
+  const inputRef = useRef(null);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -25,10 +25,22 @@ const {addTodos} = useContext(TodoContext)
     setTodoText(e.target.value);
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [])
+
   return (
     <TodoFormWrapper onSubmit={handleSubmit}>
-      <TodoFormInput type="text" value={todoText} onChange={handleChangeTodoText} placeholder="할 일을 입력하세요"/>
-      <SubmitButton type="submit" $bgColor="#582be6">제출하기</SubmitButton>
+      <TodoFormInput
+        type="text"
+        value={todoText}
+        onChange={handleChangeTodoText}
+        placeholder="할 일을 입력하세요"
+        ref={inputRef}
+      />
+      <SubmitButton type="submit" $bgColor="#582be6">
+        제출하기
+      </SubmitButton>
     </TodoFormWrapper>
   );
 };
@@ -60,10 +72,8 @@ const TodoFormInput = styled.input`
 
 // 상속해서 이름 바꾸기
 const SubmitButton = styled(ActionButton)`
-flex: 1;
-text-align: center;
-`
-
-
+  flex: 1;
+  text-align: center;
+`;
 
 export default TodoForm;
