@@ -1,33 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TodoContext } from "../../../context/TodoContext";
-import { SAMPLE_TODOS } from "../../../constants/sample-todos";
+import { todoClient } from "../../../lib/todoClient";
 
 export const TodoProvider = ({ children }) => {
-  const [todos, setTodos] = useState(SAMPLE_TODOS);
+  const [todos, setTodos] = useState([]);
 
-  const addTodos = (text) => {
-    setTodos([{ id: crypto.randomUUID(), text, completed: false }, ...todos]);
+  const getTodos = async () => {
+    const { data } = await todoClient.get("/");
+    setTodos(data);
   };
 
-  const toggleTodoCompleted = (id) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-      } else {
-        return todo;
-      }
+  const addTodos = async (text) => {
+    const { data } = await todoClient.post("/", {
+      text,
+      completed: false,
     });
-    setTodos(updatedTodos);
+    await getTodos();
+
+    return data;
   };
 
-  const deleteTodo = (id) => {
-    // todo.id가 내가 찾는 id와 같이 않을때 true를 반환하여 그대로 남겨둠
-    const filteredTodos = todos.filter((todo) => todo.id !== id);
+  const toggleTodoCompleted = async (id, currentCompleted) => {
+    const { data } = await todoClient.patch(`/${id}`, {
+      completed: !currentCompleted,
+    });
+    await getTodos();
 
-    setTodos(filteredTodos);
+    return data;
+  };
+
+  const deleteTodo = async (id) => {
+    const { data } = await todoClient.delete(`/${id}`);
+
+    await getTodos();
+
+    return data;
   };
 
   const getFilteredTodos = (selectedFilter) => {
@@ -41,6 +48,10 @@ export const TodoProvider = ({ children }) => {
 
     return todos;
   };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
 
   return (
     <TodoContext.Provider
