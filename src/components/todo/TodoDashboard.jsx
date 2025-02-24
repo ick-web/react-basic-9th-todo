@@ -1,13 +1,43 @@
+import { useQuery } from "@tanstack/react-query";
 import { ClipboardCheck, LaptopMinimal, Video } from "lucide-react";
-import { useContext } from "react";
 import { Link, useSearchParams } from "react-router";
 import styled from "styled-components";
-import { TodoContext } from "../../context/TodoContext";
+import { getTodos } from "../../api/todo-api";
 
 export const TodoDashboard = () => {
-  const { getFilteredTodos } = useContext(TodoContext);
   const [searchParams] = useSearchParams();
-  const selectedFilter = searchParams.get('filter');
+  const selectedFilter = searchParams.get("filter");
+
+  const {
+    data: todos,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["todos"],
+    queryFn: getTodos,
+  });
+
+  const getFilteredTodos = (filter) => {
+    if (!todos) return [];
+
+    if (filter === "completed") {
+      return todos.filter((todo) => todo.completed);
+    }
+
+    if (filter === "pending") {
+      return todos.filter((todo) => !todo.completed);
+    }
+    return todos;
+  };
+
+  if (isLoading){
+    return <div>Loading...</div>
+  }
+   
+  if(error) {
+    return <div>Error fetching todos - {error}</div>
+  }
+
 
   // const all = todos.length;
   // const completed = todos.filter((todo) => todo.completed).length;
@@ -23,9 +53,9 @@ export const TodoDashboard = () => {
 
       <TodoDashboardCardList>
         <TodoDashboardCardWrapper $flex={2}>
-          <TodoDashboardCard to='/' $selected ={!selectedFilter}>
+          <TodoDashboardCard to="/" $selected={!selectedFilter}>
             <div>
-            <ClipboardCheck />
+              <ClipboardCheck />
             </div>
             <TodoDashboardCardContent>
               {all} <br /> <span>All Tasks</span>
@@ -33,24 +63,26 @@ export const TodoDashboard = () => {
           </TodoDashboardCard>
         </TodoDashboardCardWrapper>
         <TodoDashboardCardWrapper $flex={1}>
-          <TodoDashboardCard 
-          to='?filter=completed'
-           $bgColor="#582be6" 
-           $selected ={selectedFilter === "completed"}>
+          <TodoDashboardCard
+            to="?filter=completed"
+            $bgColor="#582be6"
+            $selected={selectedFilter === "completed"}
+          >
             <div>
               <LaptopMinimal />
             </div>
-            <TodoDashboardCardContent >
+            <TodoDashboardCardContent>
               {completed}
               <br /> <span> Completed Tasks</span>
             </TodoDashboardCardContent>
           </TodoDashboardCard>
         </TodoDashboardCardWrapper>
         <TodoDashboardCardWrapper $flex={1}>
-          <TodoDashboardCard 
-          to='?filter=pending'
-           $bgColor="#242424" 
-           $selected ={selectedFilter === "pending"}>
+          <TodoDashboardCard
+            to="?filter=pending"
+            $bgColor="#242424"
+            $selected={selectedFilter === "pending"}
+          >
             <div>
               <Video />
             </div>
@@ -97,7 +129,7 @@ const TodoDashboardCard = styled(Link)`
   padding: 1.25rem;
   border-radius: 1rem;
   cursor: pointer;
-  text-decoration: ${({ $selected }) => ($selected ? "underline" : "none") }
+  text-decoration: ${({ $selected }) => ($selected ? "underline" : "none")};
 `;
 
 const TodoDashboardCardContent = styled.p`
