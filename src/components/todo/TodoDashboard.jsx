@@ -1,51 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
 import { ClipboardCheck, LaptopMinimal, Video } from "lucide-react";
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import styled from "styled-components";
-import { getTodos } from "../../api/todo-api";
+import { useFilterParams } from "../../hooks/useFilterParams";
+import { useTodoQuery } from "../../hooks/useTodoQuery";
 
 export const TodoDashboard = () => {
-  const [searchParams] = useSearchParams();
-  const selectedFilter = searchParams.get("filter");
+  const selectedFilter = useFilterParams();
 
-  const {
-    data: todos,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["todos"],
-    queryFn: getTodos,
-  });
-
-  const getFilteredTodos = (filter) => {
-    if (!todos) return [];
-
-    if (filter === "completed") {
-      return todos.filter((todo) => todo.completed);
-    }
-
-    if (filter === "pending") {
-      return todos.filter((todo) => !todo.completed);
-    }
-    return todos;
-  };
-
-  if (isLoading){
-    return <div>Loading...</div>
-  }
-   
-  if(error) {
-    return <div>Error fetching todos - {error}</div>
-  }
-
-
-  // const all = todos.length;
-  // const completed = todos.filter((todo) => todo.completed).length;
-  // const pending = all - completed;
-
-  const all = getFilteredTodos().length;
-  const completed = getFilteredTodos("completed").length;
-  const pending = all - completed;
+  const { data: all } = useTodoQuery();
+  const { data: completed } = useTodoQuery("completed");
+  const { data: pending } = useTodoQuery("pending");
 
   return (
     <TodoDashBoardSection>
@@ -58,7 +22,7 @@ export const TodoDashboard = () => {
               <ClipboardCheck />
             </div>
             <TodoDashboardCardContent>
-              {all} <br /> <span>All Tasks</span>
+              {all?.length} <br /> <span>All Tasks</span>
             </TodoDashboardCardContent>
           </TodoDashboardCard>
         </TodoDashboardCardWrapper>
@@ -72,7 +36,7 @@ export const TodoDashboard = () => {
               <LaptopMinimal />
             </div>
             <TodoDashboardCardContent>
-              {completed}
+              {completed?.length}
               <br /> <span> Completed Tasks</span>
             </TodoDashboardCardContent>
           </TodoDashboardCard>
@@ -87,7 +51,7 @@ export const TodoDashboard = () => {
               <Video />
             </div>
             <TodoDashboardCardContent>
-              {pending} <br /> <span> Pending Tasks</span>
+              {pending?.length} <br /> <span> Pending Tasks</span>
             </TodoDashboardCardContent>
           </TodoDashboardCard>
         </TodoDashboardCardWrapper>

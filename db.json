@@ -3,17 +3,17 @@
     {
       "id": "2",
       "text": "Clean the house",
-      "completed": false
+      "completed": true
     },
     {
       "id": "3",
       "text": "Go for a run",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
       "text": "Finish homework",
-      "completed": false
+      "completed": true
     },
     {
       "id": "5",
@@ -46,7 +46,7 @@
       "completed": false
     },
     {
-      "id": "8b93",
+      "id": "a814",
       "text": "123",
       "completed": false
     }
