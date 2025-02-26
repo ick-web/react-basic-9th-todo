@@ -1,11 +1,6 @@
 {
   "todos": [
     {
-      "id": "2",
-      "text": "Clean the house",
-      "completed": true
-    },
-    {
       "id": "3",
       "text": "Go for a run",
       "completed": true
@@ -43,11 +38,6 @@
     {
       "id": "10",
       "text": "Write code",
-      "completed": false
-    },
-    {
-      "id": "a814",
-      "text": "123",
       "completed": false
     }
   ]
