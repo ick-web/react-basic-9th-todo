@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { getTodoItem } from "../../../api/todo-api";
-import TodoItem from "../../../components/todo/TodoItem";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import Link from "next/link";
+import { getTodoItem } from "../../../api/todo-api";
+import TodoDetail from "../../../components/todo/TodoDetail";
 
 interface DetailPageProps {
   params: Promise<{ id: string }>;
@@ -9,17 +14,24 @@ interface DetailPageProps {
 
 const DetailPage = async ({ params }: DetailPageProps) => {
   const { id } = await params;
-  const todoItem = await getTodoItem(id);
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["todos", id],
+    queryFn: () => getTodoItem(id),
+  });
 
   return (
-    <section>
-      <div className="container p-2 mx-auto space-y-4">
-        <TodoItem todo={todoItem} />
-        <Link href="/">
-          <Button className="w-full">돌아가기</Button>
-        </Link>
-      </div>
-    </section>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <section>
+        <div className="container p-2 mx-auto space-y-4">
+          <TodoDetail id={id} />
+          <Link href="/">
+            <Button className="w-full">돌아가기</Button>
+          </Link>
+        </div>
+      </section>
+    </HydrationBoundary>
   );
 };
 
