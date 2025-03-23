@@ -16,12 +16,12 @@ interface TodoItemProps {
 
 const TodoItem = ({ todo }: TodoItemProps) => {
   const { mutate: toggleTodoCompleted } = useToggleTodoMutation();
-  const { completed, id, text } = todo;
+  const { completed, id, title } = todo;
   const checkboxId = useId();
-  
+
   const onCheckedChange = (checked: CheckedState) => {
     if (checked === "indeterminate") return;
-    
+
     toggleTodoCompleted({ id, completed: checked });
   };
 
@@ -39,7 +39,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
         href={`/${id}`}
         className={cn("hover:underline", { "line-through": completed })}
       >
-        <h2>{text}</h2>
+        <h2>{title}</h2>
       </Link>
 
       <div className="space-x-2">

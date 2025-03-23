@@ -13,9 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDeleteTodoMutation } from "../../query/useTodoMutation";
 import { Trash2 } from "lucide-react";
+import { Todo } from "../../types/todo.type";
 
 interface TodoDeleteButtonProps {
-  id: string;
+  id: Todo["id"];
 }
 
 const TodoDeleteButton = ({ id }: TodoDeleteButtonProps) => {

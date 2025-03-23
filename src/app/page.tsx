@@ -8,18 +8,20 @@ import {
 } from "@tanstack/react-query";
 import { getTodos } from "../../api/todo-api";
 import TodoFilterSwitch from "../../components/todo/TodoFilterSwitch";
+import { createClient } from "../../utils/supabase/server";
 
 const Homepage = async () => {
   const queryClient = new QueryClient();
+  const supabaseClient = await createClient();
 
   await queryClient.prefetchQuery({
     queryKey: ["todos", "all"],
-    queryFn: () => getTodos(),
+    queryFn: () => getTodos(supabaseClient),
   });
 
   await queryClient.prefetchQuery({
     queryKey: ["todos", "completed"],
-    queryFn: () => getTodos("completed"),
+    queryFn: () => getTodos(supabaseClient, "completed"),
   });
 
   return (

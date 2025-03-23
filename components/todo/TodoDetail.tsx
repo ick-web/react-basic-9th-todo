@@ -1,11 +1,12 @@
 "use client";
 
 import { useTodoItemQuery } from "../../query/useTodoQuery";
+import { Todo } from "../../types/todo.type";
 import LoadingIndicator from "../LoadingIndicator";
 import TodoItem from "./TodoItem";
 
 interface TodoDetailProps {
-  id: string;
+  id: Todo["id"];
 }
 
 const TodoDetail = ({ id }: TodoDetailProps) => {
